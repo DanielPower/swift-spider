@@ -1,7 +1,8 @@
-import { DATABASE_URL } from "$env/static/private";
-import DatabaseConstructor from "better-sqlite3";
-import type { Database } from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import Database from "better-sqlite3";
+import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 
-export const db: Database = new DatabaseConstructor(
-	DATABASE_URL.replace("sqlite:", ""),
-);
+const sqlite = new Database("db.sqlite3");
+export const db = drizzle(sqlite);
+
+migrate(db, { migrationsFolder: "drizzle" });

@@ -2,18 +2,8 @@ import { db } from "$lib/db";
 import { z } from "zod";
 import { zx } from "zodix";
 import type { Actions, PageServerLoad } from "./$types";
-
-const tasksSchema = z.array(
-	z.object({
-		id: z.number(),
-		content: z.string(),
-		status: z.union([
-			z.literal("complete"),
-			z.literal("in-progress"),
-			z.literal("todo"),
-		]),
-	}),
-);
+import { task } from "../schema";
+import { eq } from "drizzle-orm";
 
 const newRequestSchema = z.object({
 	content: z.string(),
@@ -24,27 +14,17 @@ const completeRequestSchema = z.object({
 });
 
 export const load: PageServerLoad = async () => {
-	const query = db.prepare("SELECT * FROM task");
-	const todos = tasksSchema.parse(query.all());
+	const todos = await db.select().from(task);
 	return { todos };
 };
 
 export const actions: Actions = {
 	new: async ({ request }) => {
 		const { content } = await zx.parseForm(request, newRequestSchema);
-		const query = db.prepare(`
-			INSERT INTO task 
-			(content) VALUES ($content)
-		`);
-		query.run({ content });
+		await db.insert(task).values({ content });
 	},
 	complete: async ({ request }) => {
 		const { id } = await zx.parseForm(request, completeRequestSchema);
-		const query = db.prepare(`
-		    UPDATE task
-		    SET status='complete'
-		    WHERE id=$id
-		  `);
-		query.run({ id });
+		db.update(task).set({ status: "complete" }).where(eq(task.id, id));
 	},
 };
