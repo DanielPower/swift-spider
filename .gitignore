@@ -1,4 +1,5 @@
 node_modules
+/db/db.sqlite3
 /build
 /.svelte-kit
 .env
