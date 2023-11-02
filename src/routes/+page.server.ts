@@ -9,13 +9,14 @@ const newRequestSchema = z.object({
 	content: z.string(),
 });
 
-const completeRequestSchema = z.object({
+const toggleRequestSchema = z.object({
 	id: z.coerce.number(),
+	status: z.union([z.literal("todo"), z.literal("done")]),
 });
 
 export const load: PageServerLoad = async () => {
-	const todos = await db.select().from(task);
-	return { todos };
+	const tasks = await db.select().from(task);
+	return { tasks };
 };
 
 export const actions: Actions = {
@@ -23,8 +24,12 @@ export const actions: Actions = {
 		const { content } = await zx.parseForm(request, newRequestSchema);
 		await db.insert(task).values({ content });
 	},
-	complete: async ({ request }) => {
-		const { id } = await zx.parseForm(request, completeRequestSchema);
-		db.update(task).set({ status: "complete" }).where(eq(task.id, id));
+	toggle: async ({ request }) => {
+		const { id, status } = await zx.parseForm(request, toggleRequestSchema);
+		console.log(id, status);
+		await db
+			.update(task)
+			.set({ status: status === "done" ? "todo" : "done" })
+			.where(eq(task.id, id));
 	},
 };
