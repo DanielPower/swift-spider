@@ -2,21 +2,28 @@
 	import { enhance } from "$app/forms";
 
 	export let task: { id: number; content: string; status: "todo" | "done" };
-	export let toggleAction: string;
-	const symbol = task.status === "todo" ? "○" : "●";
-	console.log(task);
+	$: blockSymbol = task.status === "todo" ? "○" : "●";
 </script>
 
 <div class="task">
-	<form method="POST" action={toggleAction}>
+	<form use:enhance method="POST" action="?/toggle">
 		<input type="hidden" name="id" value={task.id} />
 		<input type="hidden" name="status" value={task.status} />
-		<button type="submit">{symbol}</button>
+		<div class="block-symbol">
+			<button type="submit">{blockSymbol}</button>
+		</div>
 	</form>
 	{task.content}
 </div>
 
 <style>
+	button {
+		background: none;
+		border: none;
+	}
+	.block-symbol {
+		width: 1rem;
+	}
 	.task {
 		display: flex;
 	}

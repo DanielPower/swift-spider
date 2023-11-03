@@ -1,13 +1,19 @@
 <script lang="ts">
 	import Task from "../components/Task.svelte";
+	import Note from "../components/Note.svelte";
+	import Input from "../components/Input.svelte";
 
 	export let data;
 </script>
 
-<h1>Swift Spider</h1>
-{#each data.tasks as task}
-	<Task {task} toggleAction="?/toggle" />
-{/each}
-<form method="POST" action="?/new">
-	<input name="content" />
-</form>
+<div class="container">
+	{#each data.nodes as node}
+		{#if node.blockType === "note"}
+			<Note note={node} />
+		{/if}
+		{#if node.blockType === "task"}
+			<Task task={node} />
+		{/if}
+	{/each}
+	<Input />
+</div>
