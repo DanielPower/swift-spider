@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { integer, text, sqliteTable } from "drizzle-orm/sqlite-core";
+import { integer, text, sqliteTable, index } from "drizzle-orm/sqlite-core";
 
 export const task = sqliteTable("task", {
 	id: integer("id").primaryKey(),
@@ -7,32 +7,39 @@ export const task = sqliteTable("task", {
 	status: text("status", { enum: ["todo", "done"] })
 		.default("todo")
 		.notNull(),
-	node_id: integer("node_id").notNull(),
+	nodeId: integer("node_id").notNull(),
 });
 
 export const note = sqliteTable("note", {
 	id: integer("id").primaryKey(),
 	content: text("content").notNull(),
-	node_id: integer("node_id").notNull(),
+	nodeId: integer("node_id").notNull(),
 });
 
-export const node = sqliteTable("node", {
-	id: integer("id").primaryKey(),
-	created_at: text("created_at")
-		.default(sql`CURRENT_TIMESTAMP`)
-		.notNull(),
-});
+export const node = sqliteTable(
+	"node",
+	{
+		id: integer("id").primaryKey(),
+		createdAt: text("created_at")
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		type: text("type", { enum: ["task", "note"] }).notNull(),
+	},
+	(table) => ({
+		createdAtIdx: index("created_at_idx").on(table.createdAt),
+	}),
+);
 
 export const taskRelations = relations(task, ({ one }) => ({
 	node: one(node, {
-		fields: [task.node_id],
+		fields: [task.nodeId],
 		references: [node.id],
 	}),
 }));
 
 export const noteRelations = relations(note, ({ one }) => ({
 	node: one(node, {
-		fields: [note.node_id],
+		fields: [note.nodeId],
 		references: [node.id],
 	}),
 }));
