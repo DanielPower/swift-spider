@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import Fa from "svelte-fa";
-	import { faHome } from "@fortawesome/free-solid-svg-icons";
+	import { faHome, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 </script>
 
 <div class="header">
@@ -9,6 +9,9 @@
 		<Fa icon={faHome} size="1.5x" />
 	</a>
 	<div class="title">{$page.data.title}</div>
+	<a href="/about">
+		<Fa icon={faQuestionCircle} size="1.5x" />
+	</a>
 </div>
 <div class="content">
 	<slot />
