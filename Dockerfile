@@ -8,6 +8,7 @@ FROM node:20-alpine as deploy
 WORKDIR /app
 RUN rm -rf ./*
 COPY --from=build /app/package.json .
+COPY --from=build /app/drizzle .
 COPY --from=build /app/build .
 RUN npm install --omit=dev
 EXPOSE 3000/tcp
