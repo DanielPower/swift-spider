@@ -8,10 +8,10 @@
 
 <div class="container">
 	{#each data.nodes as node}
-		{#if node.block_type === "note"}
+		{#if node.type === "note"}
 			<Note note={node} />
 		{/if}
-		{#if node.block_type === "task"}
+		{#if node.type === "task"}
 			<Task task={node} />
 		{/if}
 	{/each}

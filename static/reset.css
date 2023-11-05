@@ -38,7 +38,6 @@ body {
 	min-height: 100vh;
 	line-height: 1.5;
 	margin: 0;
-	padding: 1rem;
 	background-color: antiquewhite;
 }
 
@@ -56,14 +55,6 @@ label {
 button {
 	margin: 0;
 	padding: 0;
-}
-
-/* Balance text wrapping on headings */
-h1,
-h2,
-h3,
-h4 {
-	text-wrap: balance;
 }
 
 /* A elements that don't have a class get default styles */

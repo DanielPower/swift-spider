@@ -4,6 +4,31 @@ import { zx } from "zodix";
 import type { Actions, PageServerLoad } from "./$types";
 import { task, note, node } from "$lib/schema";
 import { eq, sql } from "drizzle-orm";
+import { notEmpty } from "$lib/util";
+
+const nodeSchema = z.object({
+	id: z.number(),
+	createdAt: z.string(),
+	type: z.union([z.literal("task"), z.literal("note")]),
+});
+
+const getNodesSchema = z.array(
+	z.union([
+		z.object({
+			node: nodeSchema.merge(z.object({ type: z.literal("task") })),
+			task: z.object({
+				content: z.string(),
+				status: z.union([z.literal("todo"), z.literal("done")]),
+			}),
+		}),
+		z.object({
+			node: nodeSchema.merge(z.object({ type: z.literal("note") })),
+			note: z.object({
+				content: z.string(),
+			}),
+		}),
+	]),
+);
 
 const newRequestSchema = z.object({
 	blockType: z.union([z.literal("note"), z.literal("task")]),
@@ -17,19 +42,24 @@ const toggleRequestSchema = z.object({
 
 export const load: PageServerLoad = async ({ params }) => {
 	const date = [params.year, params.month, params.day].join("-");
-	const parsedNodes = (
-		await db
-			.select()
-			.from(node)
-			.leftJoin(task, eq(task.nodeId, node.id))
-			.leftJoin(note, eq(note.nodeId, node.id))
-			.where(sql`date(${node.createdAt}) = ${date}`)
-	).map((item) => ({
-		...item.node,
-		...item[item.node.type],
-	}));
-	console.log(parsedNodes);
-	return { nodes: [] };
+	const nodes = getNodesSchema
+		.parse(
+			await db
+				.select()
+				.from(node)
+				.leftJoin(task, eq(task.nodeId, node.id))
+				.leftJoin(note, eq(note.nodeId, node.id))
+				.where(sql`date(${node.createdAt}) = ${date}`),
+		)
+		.map((item) => {
+			if ("task" in item) {
+				return { ...item.node, ...item.task };
+			} else if ("note" in item) {
+				return { ...item.node, ...item.note };
+			}
+		})
+		.filter(notEmpty);
+	return { title: date, nodes };
 };
 
 export const actions: Actions = {
