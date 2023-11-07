@@ -6,6 +6,7 @@ import { task, note, node } from "$lib/schema";
 import { eq, sql } from "drizzle-orm";
 import { notEmpty } from "$lib/util";
 import { getTimezoneOffset } from "date-fns-tz";
+import dayjs from "dayjs";
 
 const nodeSchema = z.object({
 	id: z.number(),
@@ -67,7 +68,13 @@ export const load: PageServerLoad = async ({ params }) => {
 			}
 		})
 		.filter(notEmpty);
-	return { title: date, nodes };
+	return {
+		title: date,
+		nodes,
+		currentDay: dayjs(date).format("YYYY/MM/DD"),
+		nextDay: dayjs(date).add(1, "day").format("YYYY/MM/DD"),
+		previousDay: dayjs(date).subtract(1, "day").format("YYYY/MM/DD"),
+	};
 };
 
 export const actions: Actions = {

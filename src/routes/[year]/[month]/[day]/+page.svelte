@@ -2,8 +2,11 @@
 	import Task from "../../../../components/Task.svelte";
 	import Note from "../../../../components/Note.svelte";
 	import Input from "../../../../components/Input.svelte";
+	import dayjs from "dayjs";
 
 	export let data;
+
+	$: isToday = data.currentDay === dayjs().format("YYYY/MM/DD");
 </script>
 
 <div class="container">
@@ -15,5 +18,7 @@
 			<Task task={node} />
 		{/if}
 	{/each}
-	<Input />
+	{#if isToday}
+		<Input />
+	{/if}
 </div>
