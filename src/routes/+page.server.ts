@@ -3,5 +3,6 @@ import dayjs from "dayjs";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
-	throw redirect(302, dayjs().format("YYYY/MM/DD"));
+	// TODO get the user's timezone
+	throw redirect(302, dayjs().tz("America/St_Johns").format("YYYY/MM/DD"));
 };

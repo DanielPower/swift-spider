@@ -5,6 +5,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { task, note, node } from "$lib/schema";
 import { eq, sql } from "drizzle-orm";
 import { notEmpty } from "$lib/util";
+import { getTimezoneOffset } from "date-fns-tz";
 
 const nodeSchema = z.object({
 	id: z.number(),
@@ -41,6 +42,8 @@ const toggleRequestSchema = z.object({
 });
 
 export const load: PageServerLoad = async ({ params }) => {
+	// TODO get the user's timezone
+	const timezoneOffset = `${getTimezoneOffset("America/St_Johns") / 1000} seconds`;
 	const date = [params.year, params.month, params.day].join("-");
 	const nodes = getNodesSchema
 		.parse(
@@ -49,7 +52,12 @@ export const load: PageServerLoad = async ({ params }) => {
 				.from(node)
 				.leftJoin(task, eq(task.nodeId, node.id))
 				.leftJoin(note, eq(note.nodeId, node.id))
-				.where(sql`date(${node.createdAt}) = ${date}`),
+				.where(
+					sql`date(
+            ${node.createdAt}, 
+            ${timezoneOffset}
+          ) = ${date}`,
+				),
 		)
 		.map((item) => {
 			if ("task" in item) {
