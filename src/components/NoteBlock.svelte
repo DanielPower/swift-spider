@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let note: { id: number; content: string };
+	import type { Note } from "$lib/types";
+
+	export let note: Note;
 </script>
 
 <div class="note">

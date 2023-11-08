@@ -1,7 +1,6 @@
 import { db } from "$lib/db";
 import { z } from "zod";
-import { zx } from "zodix";
-import type { Actions, PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 import { task, note, node } from "$lib/schema";
 import { eq, sql } from "drizzle-orm";
 import { notEmpty } from "$lib/util";
@@ -31,16 +30,6 @@ const getNodesSchema = z.array(
 		}),
 	]),
 );
-
-const newRequestSchema = z.object({
-	blockType: z.union([z.literal("note"), z.literal("task")]),
-	content: z.string(),
-});
-
-const toggleRequestSchema = z.object({
-	id: z.coerce.number(),
-	status: z.union([z.literal("todo"), z.literal("done")]),
-});
 
 export const load: PageServerLoad = async ({ params }) => {
 	// TODO get the user's timezone
@@ -75,32 +64,4 @@ export const load: PageServerLoad = async ({ params }) => {
 		nextDay: dayjs(date).add(1, "day").format("YYYY/MM/DD"),
 		previousDay: dayjs(date).subtract(1, "day").format("YYYY/MM/DD"),
 	};
-};
-
-export const actions: Actions = {
-	new: async ({ request }) => {
-		db.transaction(async () => {
-			const { blockType, content } = await zx.parseForm(request, newRequestSchema);
-			const { id: nodeId } = db
-				.insert(node)
-				.values({ type: blockType })
-				.returning({ id: node.id })
-				.get();
-			if (blockType === "note") {
-				await db.insert(note).values({ content, nodeId });
-				return;
-			}
-			if (blockType === "task") {
-				await db.insert(task).values({ content, nodeId });
-				return;
-			}
-		});
-	},
-	toggle: async ({ request }) => {
-		const { id, status } = await zx.parseForm(request, toggleRequestSchema);
-		await db
-			.update(task)
-			.set({ status: status === "done" ? "todo" : "done" })
-			.where(eq(task.id, id));
-	},
 };

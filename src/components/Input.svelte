@@ -37,7 +37,7 @@
 <form
 	autocomplete="off"
 	method="POST"
-	action="?/new"
+	action="/?/new"
 	use:enhance={({ cancel }) => {
 		if (blockType === "none" || value === "") {
 			cancel();

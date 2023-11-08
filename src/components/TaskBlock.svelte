@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import type { Task } from "$lib/types";
 
-	export let task: { id: number; content: string; status: "todo" | "done" };
+	export let task: Task;
 	$: blockSymbol = task.status === "todo" ? "○" : "●";
 </script>
 
 <div class="task">
-	<form use:enhance method="POST" action="?/toggle">
+	<form use:enhance method="POST" action="/?/toggle">
 		<input type="hidden" name="id" value={task.id} />
 		<input type="hidden" name="status" value={task.status} />
 		<div class="block-symbol">
