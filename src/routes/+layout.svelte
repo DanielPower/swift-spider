@@ -119,7 +119,7 @@
 
 	@media (max-width: 600px) {
 		.sidebar {
-			position: absolute;
+			position: fixed;
 			left: -100%;
 			width: 100%;
 			height: 100%;
@@ -128,6 +128,9 @@
 		.sidebar-open.sidebar {
 			left: 0;
 			opacity: 100%;
+		}
+		.topbar {
+			padding: 0.75rem;
 		}
 	}
 </style>

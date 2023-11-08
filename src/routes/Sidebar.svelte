@@ -9,19 +9,17 @@
 	<a href="/" on:click={close}>Today</a>
 	<a href="/agenda" on:click={close}>Agenda</a>
 </nav>
+<div class="gradient" />
 
 <style>
 	nav {
 		background: wheat;
-		padding: 1rem;
-		height: 100%;
-	}
-	nav {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		height: 100%;
 	}
 	nav a {
+		padding: 1rem;
 		color: black;
 		text-decoration: none;
 	}
