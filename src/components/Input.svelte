@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import { onMount } from "svelte";
 	import type { KeyboardEventHandler } from "svelte/elements";
 
 	let value = "";
@@ -28,10 +27,6 @@
 			}
 		}
 	};
-
-	onMount(() => {
-		inputRef.focus();
-	});
 </script>
 
 <form
