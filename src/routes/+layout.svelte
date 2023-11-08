@@ -30,11 +30,9 @@
 />
 <div class="container">
 	<div class="topbar">
-		{#if displayType === "mobile"}
-			<button class="hamburger" on:click={toggleSidebar}>
-				<Fa icon={faHamburger} size="1.5x" />
-			</button>
-		{/if}
+		<button class="hamburger" on:click={toggleSidebar}>
+			<Fa icon={faHamburger} size="1.5x" />
+		</button>
 		<div class="nav reverse">
 			{#if $page.data.leftNavComponent}
 				<svelte:component this={$page.data.leftNavComponent} />
@@ -52,7 +50,7 @@
 	</div>
 	<div class="lower-container">
 		<div class="sidebar" class:sidebar-open={sidebarOpen}>
-			<Sidebar bind:isOpen={sidebarOpen} />
+			<Sidebar bind:isOpen={sidebarOpen} {displayType} />
 		</div>
 		<div class="content">
 			<slot />

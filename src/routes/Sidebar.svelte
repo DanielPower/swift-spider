@@ -1,7 +1,10 @@
 <script lang="ts">
 	export let isOpen = false;
+	export let displayType: "desktop" | "mobile";
 	const close = () => {
-		isOpen = false;
+		if (displayType === "mobile") {
+			isOpen = false;
+		}
 	};
 </script>
 
