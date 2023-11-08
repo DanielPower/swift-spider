@@ -3,14 +3,17 @@
 	import Fa from "svelte-fa";
 	import { faHamburger, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 	import Sidebar from "./Sidebar.svelte";
+	import { onMount } from "svelte";
 
 	let sidebarOpen = false;
-	let displayType: "desktop" | "mobile" =
-		window.innerWidth > 600 ? "desktop" : "mobile";
+	let displayType: "desktop" | "mobile";
 
 	const toggleSidebar = () => {
 		sidebarOpen = !sidebarOpen;
 	};
+	onMount(() => {
+		displayType = window.innerWidth > 600 ? "desktop" : "mobile";
+	});
 </script>
 
 <svelte:window
@@ -27,13 +30,11 @@
 />
 <div class="container">
 	<div class="topbar">
-		<button
-			class="hamburger"
-			class:hamburger-show={displayType === "mobile"}
-			on:click={toggleSidebar}
-		>
-			<Fa icon={faHamburger} size="1.5x" />
-		</button>
+		{#if displayType === "mobile"}
+			<button class="hamburger" on:click={toggleSidebar}>
+				<Fa icon={faHamburger} size="1.5x" />
+			</button>
+		{/if}
 		<div class="nav reverse">
 			{#if $page.data.leftNavComponent}
 				<svelte:component this={$page.data.leftNavComponent} />
@@ -51,7 +52,7 @@
 	</div>
 	<div class="lower-container">
 		<div class="sidebar" class:sidebar-open={sidebarOpen}>
-			<Sidebar />
+			<Sidebar bind:isOpen={sidebarOpen} />
 		</div>
 		<div class="content">
 			<slot />
@@ -63,16 +64,9 @@
 	.hamburger {
 		background: none;
 		border: none;
-		opacity: 0%;
-		pointer-events: none;
-		transition: all 0.2s ease-in-out;
 	}
 	.hamburger:hover {
 		color: white;
-	}
-	.hamburger.hamburger-show {
-		opacity: 100%;
-		pointer-events: all;
 	}
 	.container {
 		display: flex;

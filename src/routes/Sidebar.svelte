@@ -1,6 +1,13 @@
+<script lang="ts">
+	export let isOpen = false;
+	const close = () => {
+		isOpen = false;
+	};
+</script>
+
 <nav>
-	<a href="/">Today</a>
-	<a href="/agenda">Agenda</a>
+	<a href="/" on:click={close}>Today</a>
+	<a href="/agenda" on:click={close}>Agenda</a>
 </nav>
 
 <style>
