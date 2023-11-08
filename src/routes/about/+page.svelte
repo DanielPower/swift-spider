@@ -4,6 +4,16 @@
 	development
 </p>
 
+<h2>How to use</h2>
+<p>
+	Swift Spider uses a modal interface. On the "Today" page you can create new entries
+	using the input box at the bottom of the page. Once the input box is selected, you
+	must first select a block type (note, task) by pressing the appropriate key.
+</p>
+
+<div>- creates a note</div>
+<div>. creates a task</div>
+
 <h2>Goals</h2>
 <ul>
 	<li>Cloud-based</li>
