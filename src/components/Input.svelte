@@ -3,13 +3,15 @@
 	import type { KeyboardEventHandler } from "svelte/elements";
 
 	let value = "";
-	let blockType: "note" | "task" | "none" = "none";
+	let quoteSource = "";
+	let blockType: "note" | "task" | "quote" | "none" = "none";
 	let inputRef: HTMLInputElement;
 
 	$: blockSymbol = {
 		none: " ",
 		note: "-",
 		task: "○",
+		quote: "|",
 	}[blockType];
 
 	const onKeydown: KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -22,9 +24,16 @@
 				case ".":
 					blockType = "task";
 					break;
+				case "|":
+					blockType = "quote";
+					break;
 				default:
 					break;
 			}
+		}
+		if (value === "" && event.key === "Backspace") {
+			blockType = "none";
+			return;
 		}
 	};
 </script>
@@ -34,7 +43,11 @@
 	method="POST"
 	action="/?/new"
 	use:enhance={({ cancel }) => {
-		if (blockType === "none" || value === "") {
+		if (
+			blockType === "none" ||
+			value.trim() === "" ||
+			(blockType === "quote" && quoteSource.trim() === "")
+		) {
 			cancel();
 			return;
 		}
@@ -45,12 +58,17 @@
 		};
 	}}
 >
+	<!-- This is a mess. Generic refactor incoming -->
+	<input type="submit" hidden />
 	<input type="hidden" name="blockType" value={blockType} />
 	<div class="input">
 		{#if blockType !== "none"}
 			<div class="block-symbol">{blockSymbol}</div>
 		{/if}
 		<input bind:this={inputRef} bind:value on:keydown={onKeydown} name="content" />
+		{#if blockType === "quote"}
+			<input name="source" bind:value={quoteSource} />
+		{/if}
 	</div>
 </form>
 

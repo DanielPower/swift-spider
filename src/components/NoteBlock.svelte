@@ -5,19 +5,14 @@
 </script>
 
 <div class="note">
-	<div class="block-symbol">
-		<button type="submit">-</button>
-	</div>
+	<div class="block-symbol">-</div>
 	{note.content}
 </div>
 
 <style>
-	button {
-		background: none;
-		border: none;
-	}
 	.block-symbol {
 		width: 1rem;
+		text-align: center;
 	}
 	.note {
 		display: flex;

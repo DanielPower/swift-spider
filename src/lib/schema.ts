@@ -16,6 +16,13 @@ export const note = sqliteTable("note", {
 	nodeId: integer("node_id").notNull(),
 });
 
+export const quote = sqliteTable("quote", {
+	id: integer("id").primaryKey(),
+	content: text("content").notNull(),
+	source: text("source").notNull(),
+	nodeId: integer("node_id").notNull(),
+});
+
 export const node = sqliteTable(
 	"node",
 	{
@@ -23,7 +30,7 @@ export const node = sqliteTable(
 		createdAt: text("created_at")
 			.default(sql`CURRENT_TIMESTAMP`)
 			.notNull(),
-		type: text("type", { enum: ["task", "note"] }).notNull(),
+		type: text("type", { enum: ["task", "note", "quote"] }).notNull(),
 	},
 	(table) => ({
 		createdAtIdx: index("created_at_idx").on(table.createdAt),
@@ -40,6 +47,13 @@ export const taskRelations = relations(task, ({ one }) => ({
 export const noteRelations = relations(note, ({ one }) => ({
 	node: one(node, {
 		fields: [note.nodeId],
+		references: [node.id],
+	}),
+}));
+
+export const quoteRelations = relations(quote, ({ one }) => ({
+	node: one(node, {
+		fields: [quote.nodeId],
 		references: [node.id],
 	}),
 }));

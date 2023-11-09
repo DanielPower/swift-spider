@@ -28,3 +28,9 @@
 	<li>Client-side encryption</li>
 	<li>Basic journaling functionality</li>
 </ul>
+
+<h2>Changelog</h2>
+<h3>2023-11-09</h3>
+<ul>
+	<li>Added quote blocks</li>
+</ul>

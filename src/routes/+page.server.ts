@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { z } from "zod";
 import { db } from "$lib/db";
 import { zx } from "zodix";
-import { node, note, task } from "$lib/schema";
+import { node, note, quote, task } from "$lib/schema";
 import { eq } from "drizzle-orm";
 
 export const load: PageServerLoad = async () => {
@@ -12,10 +12,21 @@ export const load: PageServerLoad = async () => {
 	throw redirect(302, dayjs().tz("America/St_Johns").format("YYYY/MM/DD"));
 };
 
-const newRequestSchema = z.object({
-	blockType: z.union([z.literal("note"), z.literal("task")]),
-	content: z.string(),
-});
+const newRequestSchema = z.union([
+	z.object({
+		blockType: z.literal("note"),
+		content: z.string(),
+	}),
+	z.object({
+		blockType: z.literal("task"),
+		content: z.string(),
+	}),
+	z.object({
+		blockType: z.literal("quote"),
+		content: z.string(),
+		source: z.string(),
+	}),
+]);
 
 const toggleRequestSchema = z.object({
 	id: z.coerce.number(),
@@ -25,18 +36,27 @@ const toggleRequestSchema = z.object({
 export const actions: Actions = {
 	new: async ({ request }) => {
 		db.transaction(async () => {
-			const { blockType, content } = await zx.parseForm(request, newRequestSchema);
+			const formData = await zx.parseForm(request, newRequestSchema);
 			const { id: nodeId } = db
 				.insert(node)
-				.values({ type: blockType })
+				.values({ type: formData.blockType })
 				.returning({ id: node.id })
 				.get();
-			if (blockType === "note") {
-				await db.insert(note).values({ id: nodeId, content, nodeId });
+			if (formData.blockType === "note") {
+				await db.insert(note).values({ id: nodeId, content: formData.content, nodeId });
 				return;
 			}
-			if (blockType === "task") {
-				await db.insert(task).values({ id: nodeId, content, nodeId });
+			if (formData.blockType === "task") {
+				await db.insert(task).values({ id: nodeId, content: formData.content, nodeId });
+				return;
+			}
+			if (formData.blockType === "quote") {
+				await db.insert(quote).values({
+					id: nodeId,
+					content: formData.content,
+					source: formData.source,
+					nodeId,
+				});
 				return;
 			}
 		});

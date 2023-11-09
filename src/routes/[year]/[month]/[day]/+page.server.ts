@@ -1,7 +1,7 @@
 import { db } from "$lib/db";
 import { z } from "zod";
 import type { PageServerLoad } from "./$types";
-import { task, note, node } from "$lib/schema";
+import { task, note, node, quote } from "$lib/schema";
 import { eq, sql } from "drizzle-orm";
 import { notEmpty } from "$lib/util";
 import { getTimezoneOffset } from "date-fns-tz";
@@ -28,6 +28,13 @@ const getNodesSchema = z.array(
 				content: z.string(),
 			}),
 		}),
+		z.object({
+			node: nodeSchema.merge(z.object({ type: z.literal("quote") })),
+			quote: z.object({
+				content: z.string(),
+				source: z.string(),
+			}),
+		}),
 	]),
 );
 
@@ -42,6 +49,7 @@ export const load: PageServerLoad = async ({ params }) => {
 				.from(node)
 				.leftJoin(task, eq(task.nodeId, node.id))
 				.leftJoin(note, eq(note.nodeId, node.id))
+				.leftJoin(quote, eq(quote.nodeId, node.id))
 				.where(
 					sql`date(
             ${node.createdAt}, 
@@ -54,6 +62,8 @@ export const load: PageServerLoad = async ({ params }) => {
 				return { ...item.node, ...item.task };
 			} else if ("note" in item) {
 				return { ...item.node, ...item.note };
+			} else if ("quote" in item) {
+				return { ...item.node, ...item.quote };
 			}
 		})
 		.filter(notEmpty);

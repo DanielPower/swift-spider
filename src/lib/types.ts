@@ -12,3 +12,10 @@ export type Task = {
 	createdAt: string;
 	type: "task";
 };
+
+export type Quote = {
+	id: number;
+	content: string;
+	source: string;
+	type: "quote";
+};

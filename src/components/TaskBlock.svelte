@@ -24,6 +24,8 @@
 	}
 	.block-symbol {
 		width: 1rem;
+		text-align: center;
+		margin-right: 1rem;
 	}
 	.task {
 		display: flex;
