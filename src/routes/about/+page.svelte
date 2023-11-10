@@ -23,14 +23,23 @@
 </ul>
 
 <h2>Roadmap</h2>
+<h3>Q4 2023</h3>
 <ul>
 	<li>Account creation / authentication</li>
 	<li>Client-side encryption</li>
 	<li>Basic journaling functionality</li>
+	<li>UI redesign that isn't awful</li>
+</ul>
+<h3>Q1 2024</h3>
+<ul>
+	<li>Month-scope tasks</li>
+	<li>Monthly migrations</li>
+	<li>Reminders</li>
 </ul>
 
 <h2>Changelog</h2>
 <h3>2023-11-09</h3>
 <ul>
 	<li>Added quote blocks</li>
+	<li>Added buttons for creating new nodes on mobile</li>
 </ul>

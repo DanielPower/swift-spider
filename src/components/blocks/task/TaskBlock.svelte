@@ -2,19 +2,19 @@
 	import { enhance } from "$app/forms";
 	import type { Task } from "$lib/types";
 
-	export let task: Task;
-	$: blockSymbol = task.status === "todo" ? "○" : "●";
+	export let node: Task;
+	$: blockSymbol = node.status === "todo" ? "○" : "●";
 </script>
 
 <div class="task">
 	<form use:enhance method="POST" action="/?/toggle">
-		<input type="hidden" name="id" value={task.id} />
-		<input type="hidden" name="status" value={task.status} />
+		<input type="hidden" name="id" value={node.id} />
+		<input type="hidden" name="status" value={node.status} />
 		<div class="block-symbol">
 			<button type="submit">{blockSymbol}</button>
 		</div>
 	</form>
-	{task.content}
+	{node.content}
 </div>
 
 <style>
@@ -25,7 +25,6 @@
 	.block-symbol {
 		width: 1rem;
 		text-align: center;
-		margin-right: 1rem;
 	}
 	.task {
 		display: flex;

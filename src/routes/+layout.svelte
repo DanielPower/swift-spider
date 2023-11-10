@@ -82,7 +82,6 @@
 	.topbar {
 		display: flex;
 		gap: 1rem;
-		grid-area: topbar;
 		background: burlywood;
 		padding: 1rem;
 	}
@@ -101,6 +100,8 @@
 		margin-left: 0;
 	}
 	.content {
+		max-width: 960px;
+		margin: 0 auto;
 		padding: 1rem;
 		flex-grow: 1;
 		flex-basis: 100%;

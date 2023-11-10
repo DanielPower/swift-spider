@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Note } from "$lib/types";
 
-	export let note: Note;
+	export let node: Note;
 </script>
 
 <div class="note">
 	<div class="block-symbol">-</div>
-	{note.content}
+	{node.content}
 </div>
 
 <style>

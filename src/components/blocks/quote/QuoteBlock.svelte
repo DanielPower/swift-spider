@@ -1,18 +1,21 @@
 <script lang="ts">
 	import type { Quote } from "$lib/types";
-	export let quote: Quote;
+	export let node: Quote;
 </script>
 
 <div class="container">
-	<div class="block-symbol" />
-	<div class="quote">
-		<p>
-			{quote.content}
-		</p>
-		<div class="source">
-			- {quote.source}
+	<div>
+		<div class="quote">
+			<p>
+				{node.content}
+			</p>
 		</div>
 	</div>
+	{#if node.source.trim()}
+		<div class="source">
+			- {node.source}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -22,15 +25,12 @@
 	}
 	.container {
 		display: flex;
-	}
-	.block-symbol {
-		border-right: 2px solid grey;
-		transform: translateX(-50%);
-		width: 1rem;
-		text-align: center;
-		margin-right: 1rem;
+		flex-wrap: wrap;
 	}
 	.quote {
+		transform: translateX(0.4rem);
+		border-left: 2px solid grey;
+		padding-left: 0.5rem;
 		width: fit-content;
 		display: flex;
 		flex-wrap: wrap;
