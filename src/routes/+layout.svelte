@@ -92,20 +92,18 @@
 		color: white;
 	}
 	.sidebar {
-		width: 8rem;
-		margin-left: -8rem;
+		width: 0;
 		transition: all 0.2s ease-in-out;
+		overflow: hidden;
+		flex-shrink: 0;
 	}
 	.sidebar-open {
-		margin-left: 0;
+		width: 6rem;
 	}
 	.content {
 		max-width: 960px;
 		margin: 0 auto;
 		padding: 1rem;
-		flex-grow: 1;
-		flex-basis: 100%;
-		flex-shrink: 0;
 	}
 	.nav {
 		flex-grow: 1;
