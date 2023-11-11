@@ -29,25 +29,27 @@
 {#if blockType !== "none"}
 	<Input {blockType} {done} />
 {:else}
-	<div class="block-icons">
-		<button
-			class="block-icon"
-			on:click={() => {
-				blockType = "note";
-			}}>-</button
-		>
-		<button
-			class="block-icon"
-			on:click={() => {
-				blockType = "task";
-			}}>.</button
-		>
-		<button
-			class="block-icon"
-			on:click={() => {
-				blockType = "quote";
-			}}>|</button
-		>
+	<div class="block-icons-wrapper">
+		<div class="block-icons">
+			<button
+				class="block-icon"
+				on:click={() => {
+					blockType = "note";
+				}}>-</button
+			>
+			<button
+				class="block-icon"
+				on:click={() => {
+					blockType = "task";
+				}}>.</button
+			>
+			<button
+				class="block-icon"
+				on:click={() => {
+					blockType = "quote";
+				}}>|</button
+			>
+		</div>
 	</div>
 {/if}
 
@@ -56,6 +58,13 @@
 		display: flex;
 		column-gap: 1rem;
 		justify-content: center;
+		flex-grow: 1;
+	}
+	.block-icons-wrapper {
+		display: flex;
+		flex-direction: row;
+		flex-grow: 1;
+		align-items: flex-end;
 	}
 	.block-icon {
 		height: 2rem;
