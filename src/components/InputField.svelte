@@ -55,6 +55,7 @@
 	.block-icons {
 		display: flex;
 		column-gap: 1rem;
+		justify-content: center;
 	}
 	.block-icon {
 		height: 2rem;
