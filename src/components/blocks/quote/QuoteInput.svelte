@@ -45,10 +45,6 @@
 </form>
 
 <style>
-	p {
-		margin: 0;
-		text-wrap: balance;
-	}
 	.container {
 		display: flex;
 	}
