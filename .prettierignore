@@ -1,5 +1,6 @@
 node_modules
 /build
+/drizzle
 /.svelte-kit
 .env
 package-lock.json
