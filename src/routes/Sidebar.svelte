@@ -11,6 +11,7 @@
 <nav>
 	<a href="/" on:click={close}>Today</a>
 	<a href="/agenda" on:click={close}>Agenda</a>
+	<a href="/logout">Logout</a>
 </nav>
 <div class="gradient" />
 
