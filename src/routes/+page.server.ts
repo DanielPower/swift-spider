@@ -2,10 +2,10 @@ import { redirect } from "@sveltejs/kit";
 import dayjs from "dayjs";
 import type { Actions, PageServerLoad } from "./$types";
 import { z } from "zod";
-import { db } from "$lib/db";
 import { zx } from "zodix";
 import { node, note, quote, task } from "$lib/schema";
 import { eq } from "drizzle-orm";
+import { getUserDatabase } from "$lib/user";
 
 export const load: PageServerLoad = async () => {
 	// TODO get the user's timezone
@@ -34,7 +34,8 @@ const toggleRequestSchema = z.object({
 });
 
 export const actions: Actions = {
-	new: async ({ request }) => {
+	new: async ({ request, locals }) => {
+		const db = getUserDatabase(locals.session.data.username);
 		db.transaction(async () => {
 			const formData = await zx.parseForm(request, newRequestSchema);
 			const { id: nodeId } = db
@@ -61,8 +62,9 @@ export const actions: Actions = {
 			}
 		});
 	},
-	toggle: async ({ request }) => {
+	toggle: async ({ request, locals }) => {
 		const { id, status } = await zx.parseForm(request, toggleRequestSchema);
+		const db = getUserDatabase(locals.session.data.username);
 		await db
 			.update(task)
 			.set({ status: status === "done" ? "todo" : "done" })

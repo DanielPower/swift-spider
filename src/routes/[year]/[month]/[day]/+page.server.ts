@@ -1,4 +1,3 @@
-import { db } from "$lib/db";
 import { z } from "zod";
 import type { PageServerLoad } from "./$types";
 import { task, note, node, quote } from "$lib/schema";
@@ -6,6 +5,7 @@ import { eq, sql } from "drizzle-orm";
 import { notEmpty } from "$lib/util";
 import { getTimezoneOffset } from "date-fns-tz";
 import dayjs from "dayjs";
+import { getUserDatabase } from "$lib/user";
 
 const nodeSchema = z.object({
 	id: z.number(),
@@ -38,10 +38,11 @@ const getNodesSchema = z.array(
 	]),
 );
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
 	// TODO get the user's timezone
 	const timezoneOffset = `${getTimezoneOffset("America/St_Johns") / 1000} seconds`;
 	const date = [params.year, params.month, params.day].join("-");
+	const db = getUserDatabase(locals.session.data.username);
 	const nodes = getNodesSchema
 		.parse(
 			await db

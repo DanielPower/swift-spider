@@ -76,4 +76,9 @@
 		width: 100%;
 		color: grey;
 	}
+	input {
+		border: none;
+		background: none;
+		outline: none;
+	}
 </style>

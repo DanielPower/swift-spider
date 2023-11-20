@@ -4,10 +4,10 @@
 	export let data: PageData;
 </script>
 
-{#if data.status === "created"}
-	<div class="info">Account created successfully. Please login.</div>
-{:else if data.status === "bad_credentials"}
-	<div class="error">Invalid username or password. Please try again.</div>
+{#if data.status === "invalid_username"}
+	<div class="error">Username must contain only alphanumeric characters.</div>
+{:else if data.status === "username_taken"}
+	<div class="error">Username already taken.</div>
 {/if}
 <form method="POST">
 	<div>
@@ -18,17 +18,10 @@
 		<label for="password">Password</label>
 		<input name="password" />
 	</div>
-	<button type="submit">Login</button>
-	<p>Don't have an account? <a href="/register">Register</a></p>
+	<button type="submit">Register</button>
 </form>
 
 <style>
-	.info {
-		background: green;
-		border: solid 1px white;
-		border-radius: 2px;
-		color: white;
-	}
 	.error {
 		background: red;
 		border: solid 1px white;

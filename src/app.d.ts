@@ -1,4 +1,4 @@
-import type { Session } from 'svelte-kit-cookie-session';
+import type { Session } from "svelte-kit-cookie-session";
 type SessionData = {
 	username: string;
 };
@@ -17,3 +17,4 @@ declare global {
 }
 
 export {};
+
