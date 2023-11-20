@@ -77,9 +77,6 @@ textarea,
 select {
 	font: inherit;
 	font-size: inherit;
-	border: none;
-	background: none;
-	outline: none;
 }
 
 /* Make sure textareas without a rows attribute are not tiny */

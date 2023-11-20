@@ -29,6 +29,10 @@
 	}}
 />
 <div class="container">
+	<div class="warning">
+		This is a demo site. All data is temporary and will be deleted periodically. All
+		content (including passwords) is stored in plaintext.
+	</div>
 	<div class="topbar">
 		<button class="hamburger" on:click={toggleSidebar}>
 			<Fa icon={faHamburger} size="1.5x" />
@@ -130,5 +134,12 @@
 		.topbar {
 			padding: 0.75rem;
 		}
+	}
+
+	.warning {
+		background: red;
+		color: white;
+		padding: 0.5rem;
+		text-align: center;
 	}
 </style>

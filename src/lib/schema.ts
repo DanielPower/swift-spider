@@ -37,6 +37,12 @@ export const node = sqliteTable(
 	}),
 );
 
+export const user = sqliteTable("user", {
+	username: text("username").primaryKey(),
+	password: text("password").notNull(),
+	singleton: text("singleton").default("singleton").notNull().unique(),
+});
+
 export const taskRelations = relations(task, ({ one }) => ({
 	node: one(node, {
 		fields: [task.nodeId],
