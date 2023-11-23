@@ -1,5 +1,5 @@
 import { readdirSync } from "fs";
-import { extend } from "dayjs";
+import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { handleSession } from "svelte-kit-cookie-session";
@@ -11,8 +11,8 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { env } from "$env/dynamic/private";
 import { unauthorizedRoutes } from "$lib/constants";
 
-extend(utc);
-extend(timezone);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const handle = handleSession(
 	{
