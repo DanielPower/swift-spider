@@ -31,6 +31,9 @@ export const handle = handleSession(
 );
 
 if (!building) {
+	if (!env.DATABASE_PATH) {
+		throw new Error("DATABASE_PATH is not defined");
+	}
 	const databases = readdirSync(env.DATABASE_PATH).filter((file) =>
 		file.endsWith(".sqlite3"),
 	);
