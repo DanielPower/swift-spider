@@ -1,5 +1,5 @@
 import { readdirSync } from "fs";
-import dayjs from "dayjs";
+import { extend } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { handleSession } from "svelte-kit-cookie-session";
@@ -11,8 +11,8 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { env } from "$env/dynamic/private";
 import { unauthorizedRoutes } from "$lib/constants";
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+extend(utc);
+extend(timezone);
 
 export const handle = handleSession(
 	{
@@ -31,6 +31,9 @@ export const handle = handleSession(
 );
 
 if (!building) {
+	if (!env.DATABASE_PATH) {
+		throw new Error("DATABASE_PATH is not defined");
+	}
 	const databases = readdirSync(env.DATABASE_PATH).filter((file) =>
 		file.endsWith(".sqlite3"),
 	);

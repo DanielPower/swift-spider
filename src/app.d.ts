@@ -10,11 +10,9 @@ declare global {
 		}
 		interface PageData {
 			title: string;
-			session: SessionData;
 		}
 		// interface Platform {}
 	}
 }
 
 export {};
-
