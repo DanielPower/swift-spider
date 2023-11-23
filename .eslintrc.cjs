@@ -2,18 +2,10 @@ module.exports = {
 	root: true,
 	extends: [
 		"eslint:recommended",
-		"plugin:import/recommended",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:import/typescript",
 		"plugin:svelte/recommended",
 		"prettier",
 	],
-	settings: {
-		"import/resolver": {
-			typescript: true,
-			node: true,
-		},
-	},
 	parser: "@typescript-eslint/parser",
 	plugins: ["@typescript-eslint"],
 	parserOptions: {
