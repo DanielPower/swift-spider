@@ -12,7 +12,7 @@ const registerRequestSchema = z.object({
 
 export const load = (async ({ url, locals }) => {
 	if (locals.session.data.username) {
-		throw redirect(302, "/");
+		redirect(302, "/");
 	}
 	return {
 		title: "Create Account",
@@ -28,12 +28,12 @@ export const actions: Actions = {
 			await createUser(formData.username, formData.password);
 		} catch (error) {
 			if (error instanceof InvalidUsernameError) {
-				throw redirect(302, "/register?status=invalid_username");
+				redirect(302, "/register?status=invalid_username");
 			}
 			if (error instanceof UserAlreadyExistsError) {
-				throw redirect(302, "/register?status=username_taken");
+				redirect(302, "/register?status=username_taken");
 			}
 		}
-		throw redirect(302, "/login?status=created");
+		redirect(302, "/login?status=created");
 	},
 };

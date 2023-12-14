@@ -24,7 +24,7 @@ export const handle = handleSession(
 			!unauthorizedRoutes.includes(event.url.pathname) &&
 			!event.locals.session.data.username
 		) {
-			throw redirect(302, "/login");
+			redirect(302, "/login");
 		}
 		return resolve(event);
 	},
