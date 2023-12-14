@@ -9,7 +9,7 @@ import { getUserDatabase } from "$lib/user";
 
 export const load: PageServerLoad = async () => {
 	// TODO get the user's timezone
-	throw redirect(302, dayjs().tz("America/St_Johns").format("YYYY/MM/DD"));
+	redirect(302, dayjs().tz("America/St_Johns").format("YYYY/MM/DD"));
 };
 
 const newRequestSchema = z.union([

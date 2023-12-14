@@ -12,7 +12,7 @@ const loginRequestSchema = z.object({
 
 export const load = (async ({ locals, url }) => {
 	if (locals.session.data.username) {
-		throw redirect(302, "/");
+		redirect(302, "/");
 	}
 	return {
 		title: "Login",
@@ -27,7 +27,7 @@ export const actions: Actions = {
 		const db = getUserDatabase(username);
 		const userResult = db.select({ password: user.password }).from(user).get();
 		if (userResult?.password !== password) {
-			throw redirect(302, "/login?status=bad_credentials");
+			redirect(302, "/login?status=bad_credentials");
 		}
 		await locals.session.set({ username });
 	},
