@@ -1,16 +1,12 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import Fa from "svelte-fa";
-	import { faHamburger, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 	import Sidebar from "./Sidebar.svelte";
 	import { onMount } from "svelte";
+	import "../app.css";
+	import Navbar from "../components/Navbar.svelte";
 
-	let sidebarOpen = false;
 	let displayType: "desktop" | "mobile";
 
-	const toggleSidebar = () => {
-		sidebarOpen = !sidebarOpen;
-	};
+	let sidebarOpen = true;
 	onMount(() => {
 		displayType = window.innerWidth > 600 ? "desktop" : "mobile";
 	});
@@ -28,73 +24,23 @@
 		}
 	}}
 />
-<div class="container">
-	<div class="warning">
+<div class="flex flex-col min-h-screen dark:text-white dark:bg-gray-800">
+	<div class="text-white bg-red-500 p-2 text-center">
 		This is a demo site. All data is temporary and will be deleted periodically. All
 		content (including passwords) is stored in plaintext.
 	</div>
-	<div class="topbar">
-		<button class="hamburger" on:click={toggleSidebar}>
-			<Fa icon={faHamburger} size="1.5x" />
-		</button>
-		<div class="nav reverse">
-			{#if $page.data.leftNavComponent}
-				<svelte:component this={$page.data.leftNavComponent} />
-			{/if}
-		</div>
-		<div class="title">{$page.data.title}</div>
-		<div class="nav">
-			{#if $page.data.rightNavComponent}
-				<svelte:component this={$page.data.rightNavComponent} />
-			{/if}
-		</div>
-		<a href="/about">
-			<Fa icon={faQuestionCircle} size="1.5x" />
-		</a>
-	</div>
-	<div class="lower-container">
+	<Navbar bind:sidebarOpen />
+	<div class="flex flex-grow">
 		<div class="sidebar" class:sidebar-open={sidebarOpen}>
 			<Sidebar bind:isOpen={sidebarOpen} {displayType} />
 		</div>
-		<div class="content">
+		<div class="flex-grow max-w-4xl p-2">
 			<slot />
 		</div>
 	</div>
 </div>
 
 <style>
-	.hamburger {
-		background: none;
-		border: none;
-	}
-	.hamburger:hover {
-		color: white;
-	}
-	.container {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-	.lower-container {
-		display: flex;
-		flex-grow: 1;
-	}
-	.title {
-		text-align: center;
-		font-size: 1.1rem;
-	}
-	.topbar {
-		display: flex;
-		gap: 1rem;
-		background: burlywood;
-		padding: 1rem;
-	}
-	.topbar a {
-		color: black;
-	}
-	.topbar a:hover {
-		color: white;
-	}
 	.sidebar {
 		width: 0;
 		transition: all 0.2s ease-in-out;
@@ -103,20 +49,6 @@
 	}
 	.sidebar-open {
 		width: 6rem;
-	}
-	.content {
-		flex-grow: 1;
-		max-width: 960px;
-		margin: 0 auto;
-		padding: 1rem;
-	}
-	.nav {
-		flex-grow: 1;
-		flex-direction: row;
-		display: flex;
-	}
-	.nav.reverse {
-		flex-direction: row-reverse;
 	}
 
 	@media (max-width: 600px) {
@@ -131,15 +63,5 @@
 			left: 0;
 			opacity: 100%;
 		}
-		.topbar {
-			padding: 0.75rem;
-		}
-	}
-
-	.warning {
-		background: red;
-		color: white;
-		padding: 0.5rem;
-		text-align: center;
 	}
 </style>
