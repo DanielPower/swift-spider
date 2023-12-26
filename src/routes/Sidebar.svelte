@@ -6,28 +6,21 @@
 			isOpen = false;
 		}
 	};
+
+	const links = [
+		{ name: "Today", href: "/" },
+		{ name: "Agenda", href: "/agenda" },
+		{ name: "Logout", href: "/logout" },
+	];
 </script>
 
-<nav>
-	<a href="/" on:click={close}>Today</a>
-	<a href="/agenda" on:click={close}>Agenda</a>
-	<a href="/logout">Logout</a>
+<nav class="bg-wheat dark:bg-gray-600 flex flex-col h-full">
+	{#each links as link}
+		<a
+			class="p-4 hover:text-white dark:hover:text-black"
+			href={link.href}
+			on:click={close}>{link.name}</a
+		>
+	{/each}
 </nav>
 <div class="gradient" />
-
-<style>
-	nav {
-		background: wheat;
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-	}
-	nav a {
-		padding: 1rem;
-		color: black;
-		text-decoration: none;
-	}
-	nav ul li a:hover {
-		color: white;
-	}
-</style>
