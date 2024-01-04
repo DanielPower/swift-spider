@@ -44,6 +44,7 @@
 		"dayjs": "^1.11.10",
 		"drizzle-orm": "^0.28.6",
 		"svelte-kit-cookie-session": "^4.0.0",
+		"tailwind-merge": "^2.2.0",
 		"zod": "^3.22.4",
 		"zodix": "^0.4.4"
 	}

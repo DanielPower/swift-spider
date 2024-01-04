@@ -1,4 +1,7 @@
 <script lang="ts">
+	import A from "../../components/A.svelte";
+	import Button from "../../components/Button.svelte";
+	import Input from "../../components/Input.svelte";
 	import type { PageData } from "./$types";
 
 	export let data: PageData;
@@ -10,16 +13,12 @@
 	<div class="error">Invalid username or password. Please try again.</div>
 {/if}
 <form method="POST">
-	<div>
-		<label for="username">Username</label>
-		<input name="username" />
+	<div class="flex flex-col gap-2">
+		<Input name="username" label="Username" />
+		<Input name="password" label="Password" />
+		<Button type="submit">Login</Button>
+		<p>Don't have an account? <A href="/register">Register</A></p>
 	</div>
-	<div>
-		<label for="password">Password</label>
-		<input name="password" />
-	</div>
-	<button type="submit">Login</button>
-	<p>Don't have an account? <a href="/register">Register</a></p>
 </form>
 
 <style>
