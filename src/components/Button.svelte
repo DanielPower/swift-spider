@@ -10,7 +10,7 @@
 
 <button
 	class={twMerge(
-		`p-1 border border-black bg-gray-100 border-r rounded dark:border-white dark:from-teal-600 dark:to-gray-800 dark:bg-gradient-to-b`,
+		`p-1 border border-black bg-gray-100 border-r rounded dark:border-white dark:bg-teal-800 dark:hover:bg-teal-700`,
 		className,
 	)}
 >
