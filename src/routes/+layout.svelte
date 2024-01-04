@@ -24,7 +24,7 @@
 		}
 	}}
 />
-<div class="flex flex-col min-h-screen dark:text-white dark:bg-gray-800">
+<div class="flex flex-col min-h-screen dark:text-white dark:bg-gray-700">
 	<div class="text-white bg-red-500 p-2 text-center">
 		This is a demo site. All data is temporary and will be deleted periodically. All
 		content (including passwords) is stored in plaintext.

@@ -9,7 +9,7 @@
 	};
 </script>
 
-<div class="flex gap-2 p-2 bg-wheat-300 dark:bg-gray-700 dark:text-white">
+<div class="flex gap-2 p-2 bg-wheat-300 dark:bg-gray-800 dark:text-white">
 	<button class="hover:text-white" on:click={toggleSidebar}>
 		<Fa icon={faHamburger} size="1.5x" />
 	</button>
