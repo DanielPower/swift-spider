@@ -34,8 +34,10 @@
 		<div class="sidebar" class:sidebar-open={sidebarOpen}>
 			<Sidebar bind:isOpen={sidebarOpen} {displayType} />
 		</div>
-		<div class="flex-grow max-w-4xl p-2">
-			<slot />
+		<div class="flex justify-center flex-grow p-2">
+			<div class="flex-grow max-w-4xl">
+				<slot />
+			</div>
 		</div>
 	</div>
 </div>

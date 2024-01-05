@@ -18,7 +18,7 @@
 
 <nav class="bg-wheat dark:bg-gray-600 flex flex-col h-full">
 	{#each links as link}
-		<A class="p-4" href={link.href} on:click={close}>{link.name}</A>
+		<A class="p-4 dark:text-white" href={link.href} on:click={close}>{link.name}</A>
 	{/each}
 </nav>
 <div class="gradient" />
